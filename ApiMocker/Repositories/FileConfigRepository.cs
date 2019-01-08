@@ -1,38 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using ApiMocker.Entities;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace ApiMocker.Repositories
 {
     public class FileConfigRepository
     {
-        private const string ConfigsFolder = "app-configs";
-        private const string MocksDefaultFolder = "app-mocks";
+        private readonly ILogger _logger;
+        private readonly ApplicationSettings _applicationSettings;
 
-        private static ApiMockerConfig _apiMockerConfig;
-        public FileConfigRepository(string fullFilePath)
+        public FileConfigRepository(ILogger<FileConfigRepository> logger)
         {
-
+            _logger = logger;
         }
 
-
-
-        public IEnumerable<ServiceMock> GetAll()
+        public async Task<ApiMockerConfig> GetApiMockerConfig(ApplicationSettings applicationSettings)
         {
+            ApiMockerConfig apiMockerConfig = null;
+            var fileContent = await File.ReadAllTextAsync(applicationSettings.ConfigFullFilePath);
 
-        }
-
-        public ApiMockerConfig ApiMockerConfig
-        {
-            get
+            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
             {
-                if (_apiMockerConfig == null)
-                {
+                MissingMemberHandling = MissingMemberHandling.Error,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
 
-                }
+            try
+            {
+                apiMockerConfig = JsonConvert.DeserializeObject<ApiMockerConfig>(fileContent, serializerSettings);
             }
+            catch
+            {
+                _logger.LogError($"Invalid JSON in config file {applicationSettings.ConfigFullFilePath}");
+                _logger.LogError($"Please add a valid file in the {applicationSettings.ConfigsFolder} folder");
+                //invalid json, killing the exception, try again with a valid file
+            }
+
+            return apiMockerConfig;
+        }
+
+        public async Task<string> GetMockedResponse(string fullFileName)
+        {
+            if (!File.Exists(fullFileName)) { }
+                // log missing file
+
+            return await File.ReadAllTextAsync(fullFileName);
         }
     }
 }

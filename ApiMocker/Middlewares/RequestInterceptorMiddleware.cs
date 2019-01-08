@@ -9,6 +9,5 @@ namespace ApiMocker.Middlewares
     public class RequestInterceptorMiddleware
     {
         private readonly RequestDelegate _next;
-        private 
     }
 }
