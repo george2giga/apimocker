@@ -26,6 +26,11 @@ namespace ApiMocker
             var url = ApplicationSettings.Instance.Https ? "https" : "http";
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    //logging.AddConsole();
+                })
                 //.UseSetting("https_port", ApplicationSettings.Instance.TcpPort.ToString());
                 .UseUrls($"{url}://*:{ApplicationSettings.Instance.TcpPort}");
         }
