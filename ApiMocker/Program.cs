@@ -18,7 +18,8 @@ namespace ApiMocker
         {
             var application = new CmdApplication();
             application.ExecuteCmdApplication(args);
-            CreateWebHostBuilder(args).Build().Run();
+
+            //CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)

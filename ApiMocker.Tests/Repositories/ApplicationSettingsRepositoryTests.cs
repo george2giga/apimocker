@@ -19,17 +19,18 @@ namespace ApiMocker.Tests.Repositories
             var wwwrootDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wwwroot");
             _configsDirectory = Path.Combine(wwwrootDirectory, "app-configs");
             _mocksDirectory = Path.Combine(wwwrootDirectory, "app-mocks");
-            _apiMockerConfigRepository = new ApiMockerConfigRepository(ApplicationSettings.Instance);
+            _apiMockerConfigRepository = new ApiMockerConfigRepository(new FileRepository());
         }
 
         [Fact]
         public async void EnsureConfgIsDeserializedCorrectly()
         {
             // Arrange 
+            var appInstance = ApplicationSettings.Instance;
             ApplicationSettings.Instance.ConfigFullFilePath = Path.Combine(_configsDirectory, "sample-config.json");
 
             // Act
-            var appSettings = await _apiMockerConfigRepository.Get();
+            var appSettings = await _apiMockerConfigRepository.Get(appInstance);
 
             // Assert
             Assert.NotNull(appSettings);
