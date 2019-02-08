@@ -17,7 +17,7 @@ namespace ApiMocker
                 Name = ".Net ApiMocker",
                 Description = "Mock your API calls.",
             };
-            cmdApplication.HelpOption("-d|-h|--help");
+            cmdApplication.HelpOption("-?|-h|--help");
             var configFileOption = cmdApplication.Option("-c|--config", "supply a config file", CommandOptionType.SingleValue);
             var tcpPortOption = cmdApplication.Option("-p|--port", "supply a tcp port", CommandOptionType.SingleValue);
             var httpsOption = cmdApplication.Option("-h|--https", "use https", CommandOptionType.NoValue);
@@ -50,11 +50,11 @@ namespace ApiMocker
                     ApplicationSettings.Instance.Https = true;
                 }
 
-                if (cmdApplication.)
-                {
-                    //ApplicationSettings.Instance.Https = Convert.ToBoolean(httpsOption.Value());
-                    ApplicationSettings.Instance.Https = true;
-                }
+                //if (cmdApplication.)
+                //{
+                //    //ApplicationSettings.Instance.Https = Convert.ToBoolean(httpsOption.Value());
+                //    ApplicationSettings.Instance.Https = true;
+                //}
 
                 return 0;
             });
@@ -68,6 +68,8 @@ namespace ApiMocker
                 //TODO: add logging
                 cmdApplication.Error.WriteLine(ex.Message);
                 cmdApplication.ShowHelp();
+                //Console.ReadLine();
+
                 //cmdApplication.Error.WriteLine(ex.ToString());
             }
         }

@@ -21,8 +21,8 @@ namespace ApiMocker.Core
         }
         public async Task ReplaceResponse(HttpContext context, ApplicationSettings applicationSettings)
         {
-            //var serviceMock = _liteDbRepository.GetBy(mock => mock.Url == context.Request.Path && mock.Verb == context.Request.Method);
-            var serviceMock = applicationSettings.ServiceMocks.Where(x => IsMatch(x.Url, context.Request.Path)).FirstOrDefault(y => y.Verb.Equals(context.Request.Method, StringComparison.InvariantCultureIgnoreCase));
+            var requestUrl = string.Concat(context.Request.Path.ToUriComponent(), context.Request.QueryString.ToUriComponent());
+            var serviceMock = applicationSettings.ServiceMocks.Where(x => IsMatch(requestUrl, x.Url)).FirstOrDefault(y => y.Verb.Equals(context.Request.Method, StringComparison.InvariantCultureIgnoreCase));
 
             if (serviceMock != null)
             {

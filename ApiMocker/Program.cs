@@ -19,7 +19,7 @@ namespace ApiMocker
             var application = new CmdApplication();
             application.ExecuteCmdApplication(args);
 
-            //CreateWebHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
@@ -30,7 +30,7 @@ namespace ApiMocker
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
-                    //logging.AddConsole();
+                    logging.AddConsole();
                 })
                 //.UseSetting("https_port", ApplicationSettings.Instance.TcpPort.ToString());
                 .UseUrls($"{url}://*:{ApplicationSettings.Instance.TcpPort}");
