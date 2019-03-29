@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using ApiMocker.Entities;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.CommandLineUtils;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ApiMocker
@@ -16,8 +14,8 @@ namespace ApiMocker
     {
         public static void Main(string[] args)
         {
-            var application = new CmdApplication();
-            application.ExecuteCmdApplication(args);
+            //var application = new CmdApplication();
+            //application.ExecuteCmdApplication(args);
 
             CreateWebHostBuilder(args).Build().Run();
         }
