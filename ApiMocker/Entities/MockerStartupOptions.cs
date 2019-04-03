@@ -13,15 +13,15 @@ namespace ApiMocker.Entities
         public string ConfigFile { get; set; }
 
         [Option('p', "port", HelpText = "Tcp Port used by ApiMocker")]
-        public int TcpPort { get; set; }
+        public int? TcpPort { get; set; }
 
         [Option('h', "https", HelpText = "Set to true if listener should be using secure connection (HTTPS)")]
-        public bool Https { get; set; }
+        public bool? Https { get; set; }
 
         [Option('q', "quiet", HelpText = "Set to true to enable verbose console logging")]
-        public bool VerboseLogging { get; set; }
+        public bool? VerboseLogging { get; set; }
 
-        [Option('t', "trova", HelpText = "Set to true to enable verbose console logging")]
-        public bool? Trova { get; set; }
+        //[Option('m', "mocks", HelpText = "Set the mocks folder")]
+        //public bool? Trova { get; set; }
     }
 }

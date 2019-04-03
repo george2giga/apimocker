@@ -19,30 +19,39 @@ namespace ApiMocker.Entities
 
     public class AppSettingsSingleton 
     {
-        public int Port { get; }
-        public bool Https { get;}
-        public bool QuietLogging { get; }
-        public string MockFolder { get; }
-        public string ConfigName { get; }
+        public int Port { get; set; }
+        public bool Https { get; set; }
+        public bool VerboseLogging { get; set; }
+        public string MockFolder { get; set; }
+        public string ConfigName { get; set; }
 
-        private static AppSettingsSingleton _instance;
+        //private static AppSettingsSingleton _instance;
         // singleton instance
-        //public static AppSettingsSingleton Instance { get; } = new AppSettingsSingleton();
+        public static AppSettingsSingleton Instance { get; } = new AppSettingsSingleton();
 
-        private AppSettingsSingleton(IConfiguration configuration)
+        //private AppSettingsSingleton(IConfiguration configuration)
+        //{
+        //    Port = configuration.GetValue<int>("host:port") == 0 ?  5200 : configuration.GetValue<int>("host:port");
+        //    Https = configuration.GetValue<bool>("host:https") != false && configuration.GetValue<bool>("host:https");
+        //    QuietLogging = configuration.GetValue<bool>("logging:quiet") != false && configuration.GetValue<bool>("host:quiet");
+        //    MockFolder = configuration.GetValue<string>("mocks:rootfolder") ?? "c:\\temp\\mocks";
+        //    ConfigName = configuration.GetValue<string>("startupConfig:configName") ?? "sample.config";
+        //}
+
+        private AppSettingsSingleton()
         {
-            Port = configuration.GetValue<int>("host:port") == 0 ?  5200 : configuration.GetValue<int>("host:port");
-            Https = configuration.GetValue<bool>("host:https") != false && configuration.GetValue<bool>("host:https");
-            QuietLogging = configuration.GetValue<bool>("logging:quiet") != false && configuration.GetValue<bool>("host:quiet");
-            MockFolder = configuration.GetValue<string>("mocks:rootfolder") ?? "c:\\temp\\mocks";
-            ConfigName = configuration.GetValue<string>("startupConfig:configName") ?? "sample.config";
+            Port = 5200;
+            Https = false;
+            VerboseLogging = false;
+            MockFolder = "c\\temp\\mocks";
+            ConfigName = "sample.config";
         }
 
-        public static void Create(IConfiguration configuration)
-        {
-            if(_instance == null)
-                _instance = new AppSettingsSingleton(configuration);
-        }
+        //public static void Create(IConfiguration configuration)
+        //{
+        //    if(_instance == null)
+        //        _instance = new AppSettingsSingleton(configuration);
+        //}
 
         private void UpdateSettings(IAppStartupSettings startupSettings)
         {
