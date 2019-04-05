@@ -18,7 +18,7 @@ namespace ApiMocker.Entities
         [Option('h', "https", HelpText = "Set to true if listener should be using secure connection (HTTPS)")]
         public bool? Https { get; set; }
 
-        [Option('q', "quiet", HelpText = "Set to true to enable verbose console logging")]
+        [Option('v', "verbose", HelpText = "Set to true to enable verbose console logging")]
         public bool? VerboseLogging { get; set; }
 
         //[Option('m', "mocks", HelpText = "Set the mocks folder")]

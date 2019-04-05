@@ -17,7 +17,7 @@
     },
     "ApiMocker": {
       "commandName": "Project",
-      "commandLineArgs": "--config \"C:\\\\tempDev\\\\sample-config.json\" --port 2345 --quiet --trova true",
+      "commandLineArgs": "--config \"C:\\\\tempDev\\\\sample-config.json\" --port 2345 --verbose true",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

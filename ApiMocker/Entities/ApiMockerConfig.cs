@@ -9,5 +9,12 @@ namespace ApiMocker.Entities
     {
         public string MocksFolder { get; set; }
         public IEnumerable<ServiceMock> ServiceMocks { get; set; }
+
+        public ApiMockerConfig(){}
+
+        public ApiMockerConfig(string mocksFolder)
+        {
+            MocksFolder = mocksFolder;
+        }
     }
 }

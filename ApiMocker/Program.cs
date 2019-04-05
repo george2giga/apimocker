@@ -18,14 +18,14 @@ namespace ApiMocker
     {
         public static void Main(string[] args)
         {
+            UpdateAppSettingsFromAppConfig();
+
             Parser.Default.ParseArguments<MockerStartupOptions>(args)
-                .WithParsed(options => UpdateAppSettings(options)).WithNotParsed(errors => HandleParseError(errors));
+                .WithParsed(options => UpdateAppSettingsFromAppStartup(options)).WithNotParsed(errors => HandleParseError(errors));
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        private void 
-
-        private static void UpdateAppSettings(MockerStartupOptions options)
+        private static void UpdateAppSettingsFromAppStartup(MockerStartupOptions options)
         {
             if (options.Https.HasValue)
                 AppSettingsSingleton.Instance.Https = options.Https.Value;
@@ -36,8 +36,13 @@ namespace ApiMocker
             if (!string.IsNullOrEmpty(options.ConfigFile))
                 AppSettingsSingleton.Instance.ConfigName = options.ConfigFile;
         }
-        private static void UpdateAppSettings(IConfiguration configuration)
+        private static void UpdateAppSettingsFromAppConfig()
         {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false)
+                .Build();
+
             AppSettingsSingleton.Instance.Https = configuration.GetValue<bool>("host:https");
             AppSettingsSingleton.Instance.VerboseLogging = configuration.GetValue<bool>("logging:verbose");
             if (configuration.GetValue<int>("host:port") != 0)
@@ -64,7 +69,7 @@ namespace ApiMocker
             //    .Build();
 
 
-            var url = ApplicationSettings.Instance.Https ? "https" : "http";
+            var url = AppSettingsSingleton.Instance.Https ? "https" : "http";
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .ConfigureLogging(logging =>
@@ -73,7 +78,7 @@ namespace ApiMocker
                     logging.AddConsole();
                 })
                 //.UseSetting("https_port", ApplicationSettings.Instance.TcpPort.ToString());
-                .UseUrls($"{url}://*:{ApplicationSettings.Instance.TcpPort}");
+                .UseUrls($"{url}://*:{AppSettingsSingleton.Instance.Port}");
         }
     }
 }
