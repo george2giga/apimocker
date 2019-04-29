@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,8 @@ namespace ApiMocker.Entities
 
     public class AppSettingsSingleton 
     {
+        private readonly string _wwwRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
         public int Port { get; set; }
         public bool Https { get; set; }
         public bool VerboseLogging { get; set; }

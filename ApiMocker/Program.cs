@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using ApiMocker.Entities;
 using CommandLine;
 using Microsoft.AspNetCore;
@@ -21,21 +17,10 @@ namespace ApiMocker
             UpdateAppSettingsFromAppConfig();
 
             Parser.Default.ParseArguments<MockerStartupOptions>(args)
-                .WithParsed(options => UpdateAppSettingsFromAppStartup(options)).WithNotParsed(errors => HandleParseError(errors));
+                .WithParsed(options => StartupOptionsBootstrapper.UpdateAppSettingsFromStartupOptions(options)).WithNotParsed(errors => HandleParseError(errors));
             CreateWebHostBuilder(args).Build().Run();
         }
-
-        private static void UpdateAppSettingsFromAppStartup(MockerStartupOptions options)
-        {
-            if (options.Https.HasValue)
-                AppSettingsSingleton.Instance.Https = options.Https.Value;
-            if (options.TcpPort.HasValue)
-                AppSettingsSingleton.Instance.Port = options.TcpPort.Value;
-            if (options.VerboseLogging.HasValue)
-                AppSettingsSingleton.Instance.VerboseLogging = options.VerboseLogging.Value;
-            if (!string.IsNullOrEmpty(options.ConfigFile))
-                AppSettingsSingleton.Instance.ConfigName = options.ConfigFile;
-        }
+      
         private static void UpdateAppSettingsFromAppConfig()
         {
             var configuration = new ConfigurationBuilder()
@@ -43,16 +28,7 @@ namespace ApiMocker
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
 
-            AppSettingsSingleton.Instance.Https = configuration.GetValue<bool>("host:https");
-            AppSettingsSingleton.Instance.VerboseLogging = configuration.GetValue<bool>("logging:verbose");
-            if (configuration.GetValue<int>("host:port") != 0)
-                AppSettingsSingleton.Instance.Port = configuration.GetValue<int>("host:port");
-            if (!string.IsNullOrWhiteSpace(configuration.GetValue<string>("startupConfig:configName")))
-            AppSettingsSingleton.Instance.ConfigName = configuration.GetValue<string>("startupConfig:configName");
-            if (!string.IsNullOrWhiteSpace(configuration.GetValue<string>("startupConfig:configName")))
-                AppSettingsSingleton.Instance.ConfigName = configuration.GetValue<string>("startupConfig:configName");
-            if (!string.IsNullOrWhiteSpace(configuration.GetValue<string>("mocks:rootFolder")))
-                AppSettingsSingleton.Instance.MockFolder= configuration.GetValue<string>("mocks:rootFolder");
+            StartupOptionsBootstrapper.UpdateAppSettingsFromAppConfig(configuration);
         }
 
         private static void HandleParseError(IEnumerable<Error> errs)
