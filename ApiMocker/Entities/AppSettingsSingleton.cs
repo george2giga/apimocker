@@ -10,15 +10,15 @@ namespace ApiMocker.Entities
 {
     public interface IAppStartupSettings
     {
-        int Port { get; }
-        bool Https { get; }
-        bool QuietLogging { get; }
-        string MockFolder { get; }
-        string ConfigFolder { get; }
-        string ConfigName { get; }
+        int Port { get; set; }
+        bool Https { get; set; }
+        bool VerboseLogging { get; set; }
+        string MockFolder { get; set; }
+        string ConfigFolder { get; set; }
+        string ConfigName { get; set; }
     }
 
-    public class AppSettingsSingleton 
+    public class AppSettingsSingleton  : IAppStartupSettings
     {
         private readonly string _wwwRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 
@@ -26,20 +26,12 @@ namespace ApiMocker.Entities
         public bool Https { get; set; }
         public bool VerboseLogging { get; set; }
         public string MockFolder { get; set; }
+        public string ConfigFolder { get; set; }
         public string ConfigName { get; set; }
+        public IEnumerable<IServiceMock> ServiceMocks { get; set; }
 
-        //private static AppSettingsSingleton _instance;
         // singleton instance
         public static AppSettingsSingleton Instance { get; } = new AppSettingsSingleton();
-
-        //private AppSettingsSingleton(IConfiguration configuration)
-        //{
-        //    Port = configuration.GetValue<int>("host:port") == 0 ?  5200 : configuration.GetValue<int>("host:port");
-        //    Https = configuration.GetValue<bool>("host:https") != false && configuration.GetValue<bool>("host:https");
-        //    QuietLogging = configuration.GetValue<bool>("logging:quiet") != false && configuration.GetValue<bool>("host:quiet");
-        //    MockFolder = configuration.GetValue<string>("mocks:rootfolder") ?? "c:\\temp\\mocks";
-        //    ConfigName = configuration.GetValue<string>("startupConfig:configName") ?? "sample.config";
-        //}
 
         private AppSettingsSingleton()
         {
@@ -48,17 +40,7 @@ namespace ApiMocker.Entities
             VerboseLogging = false;
             MockFolder = "c\\temp\\mocks";
             ConfigName = "sample.config";
-        }
-
-        //public static void Create(IConfiguration configuration)
-        //{
-        //    if(_instance == null)
-        //        _instance = new AppSettingsSingleton(configuration);
-        //}
-
-        private void UpdateSettings(IAppStartupSettings startupSettings)
-        {
-            //Port = startupSettings.Port
+            ServiceMocks = new List<IServiceMock>();
         }
     }
 }

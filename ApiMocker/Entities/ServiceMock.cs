@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace ApiMocker.Entities
 {
-    public class ServiceMock
+    public class ServiceMock : IServiceMock
     {
         public string Name { get; set; }
         [Required]

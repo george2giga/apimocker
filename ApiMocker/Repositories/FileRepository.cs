@@ -18,5 +18,13 @@ namespace ApiMocker.Repositories
 
             return content;
         }
+
+        public bool IsPathRooted(string filePath)
+        {
+            if(string.IsNullOrEmpty(filePath))
+                throw new ArgumentException($"{filePath} cannot be empty");
+
+            return System.IO.Path.IsPathRooted(filePath);
+        }
     }
 }

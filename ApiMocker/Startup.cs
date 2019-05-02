@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiMocker.Entities;
 using ApiMocker.Middlewares;
 using ApiMocker.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -19,6 +20,7 @@ namespace ApiMocker
         {
             services.AddTransient<IApiMockerConfigRepository, ApiMockerConfigRepository>();
             services.AddTransient<IFileRepository, FileRepository>();
+            services.AddSingleton<IAppStartupSettings>(provider => AppSettingsSingleton.Instance);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
