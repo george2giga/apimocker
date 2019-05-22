@@ -20,8 +20,5 @@ namespace ApiMocker.Entities
 
         [Option('v', "verbose", HelpText = "Set to true to enable verbose console logging")]
         public bool? VerboseLogging { get; set; }
-
-        //[Option('m', "mocks", HelpText = "Set the mocks folder")]
-        //public bool? Trova { get; set; }
     }
 }

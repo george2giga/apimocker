@@ -16,6 +16,7 @@ namespace ApiMocker.Entities
         string MockFolder { get; set; }
         string ConfigFolder { get; set; }
         string ConfigName { get; set; }
+        IEnumerable<IServiceMock> ServiceMocks { get; set; }
     }
 
     public class AppSettingsSingleton  : IAppStartupSettings

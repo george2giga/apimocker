@@ -1,9 +1,4 @@
 {
-  //"tcpPort":  3456, 
-  //"https": true,
-  //"consoleLoggingEnabled": true,
-  //"note": "sample config",
-  "mocksFolder": null,
   "serviceMocks": [
     {
       "name": "test service 1",

@@ -29,10 +29,6 @@ namespace ApiMocker
                 AppSettingsSingleton.Instance.Port = configurationRoot.GetValue<int>("host:port");
             if (!string.IsNullOrWhiteSpace(configurationRoot.GetValue<string>("startupConfig:configName")))
                 AppSettingsSingleton.Instance.ConfigName = configurationRoot.GetValue<string>("startupConfig:configName");
-            if (!string.IsNullOrWhiteSpace(configurationRoot.GetValue<string>("startupConfig:configName")))
-                AppSettingsSingleton.Instance.ConfigName = configurationRoot.GetValue<string>("startupConfig:configName");
-            if (!string.IsNullOrWhiteSpace(configurationRoot.GetValue<string>("mocks:rootFolder")))
-                AppSettingsSingleton.Instance.MockFolder = configurationRoot.GetValue<string>("mocks:rootFolder");
         }
     }
 }
